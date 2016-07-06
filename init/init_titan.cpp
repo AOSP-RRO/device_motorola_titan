@@ -35,21 +35,17 @@
 #include "log.h"
 #include "util.h"
 
-#include "init_msm.h"
+#define ISMATCH(a,b)    (!strncmp(a,b,PROP_VALUE_MAX))
 
 void gsm_properties();
 
-void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *board_type)
+void vendor_load_properties()
 {
     char platform[PROP_VALUE_MAX];
     char radio[PROP_VALUE_MAX];
     char device[PROP_VALUE_MAX];
     char devicename[PROP_VALUE_MAX];
     int rc;
-
-    UNUSED(msm_id);
-    UNUSED(msm_ver);
-    UNUSED(board_type);
 
     rc = property_get("ro.board.platform", platform);
     if (!rc || !ISMATCH(platform, ANDROID_TARGET))
@@ -76,7 +72,7 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
         property_set("ro.build.product", "titan_umtsds");
         property_set("ro.mot.build.customerid", "retaildsdsall");
         property_set("ro.telephony.default_network", "0,1");
-        property_set("ro.telephony.ril.config", "simactivation");
+        property_set("ro.telephony.ril.config", "simactivation,sim2gsmonly");
         property_set("persist.radio.multisim.config", "dsds");
         property_set("persist.radio.dont_use_dsd", "true");
         property_set("persist.radio.plmn_name_cmp", "1");
@@ -97,7 +93,7 @@ void init_msm_properties(unsigned long msm_id, unsigned long msm_ver, char *boar
         property_set("ro.build.product", "titan_udstv");
         property_set("ro.mot.build.customerid", "retbr");
         property_set("ro.telephony.default_network", "0,1");
-        property_set("ro.telephony.ril.config", "simactivation");
+        property_set("ro.telephony.ril.config", "simactivation,sim2gsmonly");
         property_set("persist.radio.multisim.config", "dsds");
         property_set("persist.radio.dont_use_dsd", "true");
         property_set("persist.radio.plmn_name_cmp", "1");
